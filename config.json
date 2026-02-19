@@ -1,0 +1,7 @@
+{
+    "api_url": "http://127.0.0.1:8000/analyze_soil",
+    "sensor_id": "SN-12345678", 
+    "transmission_interval_sec": 2,
+    "sensor_drift_noise": 1.5,
+    "chemical_spike_intensity": 50
+}
