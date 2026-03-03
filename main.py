@@ -66,7 +66,7 @@ def check_keypress():
             return sys.stdin.read(1)
     return None
 
-def print_dashboard(payload, response_status, score, spiked):
+def print_dashboard(payload, response_status, score, spiked,reason=""):
     os.system('cls' if os.name == 'nt' else 'clear') 
     
     print(Fore.CYAN + Style.BRIGHT + "╔════════════════════════════════════════╗")
@@ -101,6 +101,9 @@ def print_dashboard(payload, response_status, score, spiked):
         print(f"🏆 Trust Score:  {Fore.YELLOW}N/A")
     else:
         print(f"🏆 Trust Score:  {Fore.WHITE}{score}/100")
+
+    if reason:
+        print(f"\n💡 AI Verdict: {Fore.YELLOW}{reason}")
         
     print("\n" + Fore.BLACK + Style.BRIGHT + "Controls: [C] Inject Chemical Spike  |  [Q] Quit")
 
@@ -127,10 +130,10 @@ def main():
 
         # 3. Transmit (with Offline Testing Support)
         try:
-            response = requests.post(config["api_url"], json=payload, timeout=2)
+            response = requests.post(config["api_url"], json=payload, timeout=10)
             if response.status_code == 200:
                 data = response.json()
-                print_dashboard(payload, data.get("status"), data.get("organic_score"), spiked)
+                print_dashboard(payload, data.get("status"), data.get("organic_score"), spiked, data.get("reason"))
             else:
                 # Server is on, but returned an error (e.g., 404 or 500)
                 print_dashboard(payload, f"API ERROR {response.status_code}", 0, spiked)
@@ -141,15 +144,6 @@ def main():
             
         time.sleep(config["transmission_interval_sec"])
         
-        # try:
-        #     response = requests.post(config["api_url"], json=payload, timeout=2)
-        #     if response.status_code == 200:
-        #         data = response.json()
-        #         print_dashboard(payload, data.get("status"), data.get("organic_score"), spiked)
-        # except requests.exceptions.ConnectionError:
-        #     pass # Fails silently if cloud is off, just like a real device
-            
-        # time.sleep(config["transmission_interval_sec"])
 
 if __name__ == "__main__":
     main()
