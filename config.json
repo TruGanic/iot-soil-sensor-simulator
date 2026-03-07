@@ -1,7 +1,8 @@
 {
-    "api_url": "http://127.0.0.1:8000/analyze_soil",
-    "sensor_id": "SN-12874563", 
-    "transmission_interval_sec": 2,
+    "api_url": "https://chamathnt-truganic-soil-anomaly-detection-engine.hf.space/analyze_soil",
+    "hf_token": "",
+    "sensor_id": "SN-36912151",
+    "transmission_interval_sec": 5,
     "sensor_drift_noise": 1.5,
     "chemical_spike_intensity": 50
 }
