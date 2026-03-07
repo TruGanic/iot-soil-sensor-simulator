@@ -130,7 +130,11 @@ def main():
 
         # 3. Transmit (with Offline Testing Support)
         try:
-            response = requests.post(config["api_url"], json=payload, timeout=10)
+            headers = {"Content-Type": "application/json"}
+            if config.get("hf_token"):
+                headers["Authorization"] = f"Bearer {config['hf_token']}"
+                
+            response = requests.post(config["api_url"], json=payload, headers=headers, timeout=10)
             if response.status_code == 200:
                 data = response.json()
                 print_dashboard(payload, data.get("status"), data.get("organic_score"), spiked, data.get("reason"))
